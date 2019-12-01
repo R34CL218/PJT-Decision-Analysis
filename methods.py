@@ -111,3 +111,28 @@ def CEPV(valeurmin, valeurmax, gain, p, choix, mode):
 
 # pour les differents questionnaires seule la probabilite de la lotterie va changer: elle passe de 0.5 a 0.25 puis 0.75
 # le code est exactement le meme
+
+##############Programme GM################################################
+
+
+def GM(min_interval, max_interval, p, choix, mode):
+    #min_interval=0; p=0.75; max_interval=1
+
+    if mode == 'reversed':
+        choix = (choix + 1) % 2
+    liste = [min_interval, max_interval]
+    if choix == 1:
+        max_interval = p  # la borne max est remplacee par la nouvelle valeur
+        p = round(p / 4, 2)  # au premier abord, on divise p par 4
+        if p < min_interval:
+            p = round(min_interval + (max_interval - min_interval) / 4, 2)
+        # pas la peine de renvoyer la valeur de p car max_interval=p
+        liste = [min_interval, max_interval]
+        return({"interval": liste, "proba": p})
+    else:
+        min_interval = p
+        p = round(max_interval - (max_interval - min_interval) / 4, 2)
+        liste = [min_interval, max_interval]
+        return({"interval": liste, "proba": p})
+
+
