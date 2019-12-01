@@ -56,7 +56,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="import">
-                        <a href="{{ get_url('/import') }}"><i class="fa fa-fw fa-download"></i>Import assessment</a>
+                        <a href="{{ get_url('/import') }}"><i class="fa fa-fw fa-download"></i>Moussa Nasr</a>
                     </li>
                     <li class="manage">
                         <a href="{{ get_url('/attributes') }}"><i class="fa fa-fw fa-pencil"></i>Manage attributes</a>
