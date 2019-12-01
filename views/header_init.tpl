@@ -48,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/attributes">ASSESS</a>
+                <a class="navbar-brand" href="/attributes">ASSESS PROBA</a>
             </div>
             <!-- Top Menu Items -->
 
@@ -56,7 +56,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="import">
-                        <a href="{{ get_url('/import') }}"><i class="fa fa-fw fa-download"></i>Moussa Nasr</a>
+                        <a href="{{ get_url('/import') }}"><i class="fa fa-fw fa-download"></i>Import attribute</a>
                     </li>
                     <li class="manage">
                         <a href="{{ get_url('/attributes') }}"><i class="fa fa-fw fa-pencil"></i>Manage attributes</a>
