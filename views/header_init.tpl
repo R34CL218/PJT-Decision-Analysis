@@ -10,7 +10,7 @@
     <meta name="author" content="">
 	
 
-    <title>ASSESS</title>
+    <title>ASSESS PROBA</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ get_url('static', path='css/bootstrap.min.css') }}" rel="stylesheet">
