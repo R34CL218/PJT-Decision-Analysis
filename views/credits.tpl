@@ -2,8 +2,11 @@
 
 <h2>Former students:</h2>
 <ul>
+    <li>Pierre Heger</li>
+    <li>Mariem Housni</li>
+    <li>Moussa Nasroune</li>
+    <li>Holiday Randriama</li>
     <li>Jean Auclair</li>
-    <li>Julien Blanchard</li>
     <li>Melek Ben Kedher</li>
     <li>François Bracchi</li>
     <li>Romain Casabianca</li>
