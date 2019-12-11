@@ -382,15 +382,15 @@ $(function() {
 		var method = "PE";
 		if ($("select option:selected").text() == "Probability Equivalence") {
 			method = "PE";
+		} else if ($("select option:selected").text() == "Gambling Method") {
+			method = "GM";
 		} else if ($("select option:selected").text() == "Lottery Equivalence") {
 			method = "LE";
 		} else if ($("select option:selected").text() == "Certainty Equivalence - Constant Probability") {
 			method = "CE_Constant_Prob";
 		} else if ($("select option:selected").text() == "Certainty Equivalence - Variable Probability") {
 			method = "CE_Variable_Prob";
-		} else if ($("select option:selected").text() == "Gambling Method") {
-			method = "GM";
-		}
+
 		
 		
 		var mode = ($('input[name=mode]').is(':checked') ? "Reversed" : "Normal");
