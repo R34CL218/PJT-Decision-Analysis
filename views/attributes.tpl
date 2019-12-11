@@ -388,8 +388,11 @@ $(function() {
 			method = "CE_Constant_Prob";
 		} else if ($("select option:selected").text() == "Certainty Equivalence - Variable Probability") {
 			method = "CE_Variable_Prob";
+		} else if ($("select option:selected").text() == "Gambling Method") {
+			method = "GM";
 		}
-
+		
+		
 		var mode = ($('input[name=mode]').is(':checked') ? "Reversed" : "Normal");
 		
 
