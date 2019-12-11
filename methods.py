@@ -115,26 +115,8 @@ def CEPV(valeurmin, valeurmax, gain, p, choix, mode):
 ##############Programme GM################################################
 
 
-# from random import *
-# L = [0.75*(valeurmax-valeurmin)+valeurmin, 0.25*(valeurmax-valeurmin)+valeurmin]
-# gain = choice(L)
-
 
 def GM(valeurmin, valeurmax, gain, choix, mode):
-    if mode == 'reversed':
-        choix = (choix + 1) % 2
-    Liste = [valeurmin, valeurmax]
-    # choix = 1 correspond a l equivalent certain (comme pour la PE)
-    if choix == 1:
-        valeurmax = gain
-        gain = round(valeurmin + ((valeurmax - valeurmin) / 4), 0)
-        liste = [valeurmin, valeurmax]
-        return ({"interval": liste, "gain": gain})
-
-    else:
-        valeurmin = gain
-        gain = round(valeurmax - ((valeurmax - valeurmin) / 4), 0)
-        liste = [valeurmin, valeurmax]
-        return ({"interval": liste, "gain": gain})
+  return( valeurmin, valeurmax)
 
 
