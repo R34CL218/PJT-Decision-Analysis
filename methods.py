@@ -115,24 +115,26 @@ def CEPV(valeurmin, valeurmax, gain, p, choix, mode):
 ##############Programme GM################################################
 
 
-def GM(min_interval, max_interval, p, choix, mode):
-    #min_interval=0; p=0.75; max_interval=1
+# from random import *
+# L = [0.75*(valeurmax-valeurmin)+valeurmin, 0.25*(valeurmax-valeurmin)+valeurmin]
+# gain = choice(L)
 
+
+def GM(valeurmin, valeurmax, gain, choix, mode):
     if mode == 'reversed':
         choix = (choix + 1) % 2
-    liste = [min_interval, max_interval]
+    Liste = [valeurmin, valeurmax]
+    # choix = 1 correspond a l equivalent certain (comme pour la PE)
     if choix == 1:
-        max_interval = p  # la borne max est remplacee par la nouvelle valeur
-        p = round(p / 4, 2)  # au premier abord, on divise p par 4
-        if p < min_interval:
-            p = round(min_interval + (max_interval - min_interval) / 4, 2)
-        # pas la peine de renvoyer la valeur de p car max_interval=p
-        liste = [min_interval, max_interval]
-        return({"interval": liste, "proba": p})
+        valeurmax = gain
+        gain = round(valeurmin + ((valeurmax - valeurmin) / 4), 0)
+        liste = [valeurmin, valeurmax]
+        return ({"interval": liste, "gain": gain})
+
     else:
-        min_interval = p
-        p = round(max_interval - (max_interval - min_interval) / 4, 2)
-        liste = [min_interval, max_interval]
-        return({"interval": liste, "proba": p})
+        valeurmin = gain
+        gain = round(valeurmax - ((valeurmax - valeurmin) / 4), 0)
+        liste = [valeurmin, valeurmax]
+        return ({"interval": liste, "gain": gain})
 
 
