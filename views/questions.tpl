@@ -164,10 +164,10 @@
 			}
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			///////////////////////////////////////////////////////////////// PE METHOD ////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////// GM METHOD ////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			if (method == 'PE') {
+			if (method == 'GM') {
 				(function() {
 					// VARIABLES
 					var probability = 0.75,
@@ -176,23 +176,23 @@
 						gain_certain = parseFloat(question_val);
 
 					// INTERFACE
-					var arbre_pe = new Arbre('pe', '#trees', settings.display, "PE");
+					var arbre_gm = new Arbre('gm', '#trees', settings.display, "GM");
 					
 					// SETUP ARBRE GAUCHE
-					arbre_pe.questions_proba_haut = probability;
-					arbre_pe.questions_val_max = (mode=="Normal"? val_max : val_min) + ' ' + unit;
-					arbre_pe.questions_val_min = (mode=="Normal"? val_min : val_max) + ' ' + unit;
-					arbre_pe.questions_val_mean = gain_certain + ' ' + unit;
+					arbre_gm.questions_proba_haut = probability;
+					arbre_gm.questions_val_max = (mode=="Normal"? val_max : val_min) + ' ' + unit;
+					arbre_gm.questions_val_min = (mode=="Normal"? val_min : val_max) + ' ' + unit;
+					arbre_gm.questions_val_mean = gain_certain + ' ' + unit;
 					
-					arbre_pe.display();
-					arbre_pe.update();
+					arbre_gm.display();
+					arbre_gm.update();
 
 					$('#trees').append('</div><div class=choice style="text-align: center;"><p>Which option do you prefer?</p><button type="button" class="btn btn-default" id="gain">Certain gain</button><button type="button" class="btn btn-default" id="lottery">Lottery</button></div>');
 
 					// FUNCTIONS
 					function sync_values() {
-						arbre_pe.questions_proba_haut = probability;
-						arbre_pe.update();
+						arbre_gm.questions_proba_haut = probability;
+						arbre_gm.update();
 					}
 
 					function treat_answer(data) {
@@ -239,13 +239,13 @@
 
 					// HANDLE USERS ACTIONS
 					$('#gain').click(function() {
-						$.post('ajax', '{"type":"question", "method": "PE", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "0", "mode": "' + 'normal' + '"}', function(data) {
+						$.post('ajax', '{"type":"question", "method": "GM, "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "0", "mode": "' + 'normal' + '"}', function(data) {
 							treat_answer(data);
 						});
 					});
 
 					$('#lottery').click(function() {
-						$.post('ajax', '{"type":"question","method": "PE", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "1" , "mode": "' + 'normal' + '"}', function(data) {
+						$.post('ajax', '{"type":"question","method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "1" , "mode": "' + 'normal' + '"}', function(data) {
 							treat_answer(data);
 						});
 					});
@@ -722,81 +722,6 @@
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			///////////////////////////////////////////////////////////////// GM METHOD ////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			if (method == 'GM') {
-				(function() {
-					// VARIABLES
-					var probability = 0.75,
-						min_interval = 0,
-						max_interval = 1,
-						gain_certain = parseFloat(question_val);
-					// INTERFACE
-					var arbre_pe = new Arbre('pe', '#trees', settings.display, "GM");
-					
-					// SETUP ARBRE GAUCHE
-					arbre_pe.questions_proba_haut = probability;
-					arbre_pe.questions_val_max = (mode=="Normal"? val_max : val_min) + ' ' + unit;
-					arbre_pe.questions_val_min = (mode=="Normal"? val_min : val_max) + ' ' + unit;
-					arbre_pe.questions_val_mean = gain_certain + ' ' + unit;
-					
-					arbre_pe.display();
-					arbre_pe.update();
-					$('#trees').append('</div><div class=choice style="text-align: center;"><p>Which option do you prefer?</p><button type="button" class="btn btn-default" id="gain">Certain gain</button><button type="button" class="btn btn-default" id="lottery">Lottery</button></div>');
-					// FUNCTIONS
-					function sync_values() {
-						arbre_pe.questions_proba_haut = probability;
-						arbre_pe.update();
-					}
-					function treat_answer(data) {
-						min_interval = data.interval[0];
-						max_interval = data.interval[1];
-						probability = parseFloat(data.proba).toFixed(2);
-						if (max_interval - min_interval <= 0.05) {
-							sync_values();
-							ask_final_value(Math.round((max_interval + min_interval) * 100 / 2) / 100);
-						} else {
-							sync_values();
-						}
-					}
-					function ask_final_value(val) {
-						// we delete the choice div
-						$('.choice').hide();
-						$('.container-fluid').append(
-							'<div id= "final_value" style="text-align: center;"><br /><br /><p>We are almost done. Please enter the probability that makes you indifferent between the two situations above. Your previous choices indicate that it should be between ' + min_interval + ' and ' + max_interval + ' but you are not constrained to that range <br /> ' + min_interval +
-							'\
-						 <= <input type="text" class="form-control" id="final_proba" placeholder="Probability" value="' + val + '" style="width: 100px; display: inline-block"> <= ' + max_interval +
-							'</p><button type="button" class="btn btn-default final_validation">Validate</button></div>'
-						);
-						// when the user validate
-						$('.final_validation').click(function() {
-							var final_proba = parseFloat($('#final_proba').val());
-							if (final_proba <= 1 && final_proba >= 0) {
-								// we save it
-								assess_session.attributes[indice].questionnaire.points[String(gain_certain)]=final_proba;
-								assess_session.attributes[indice].questionnaire.number += 1;
-								// backup local
-								localStorage.setItem("assess_session", JSON.stringify(assess_session));
-								// we reload the page
-								window.location.reload();
-							}
-						});
-					}
-					sync_values();
-					// HANDLE USERS ACTIONS
-					$('#gain').click(function() {
-						$.post('ajax', '{"type":"question", "method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "0", "mode": "' + 'normal' + '"}', function(data) {
-							treat_answer(data);
-						});
-					});
-					$('#lottery').click(function() {
-						$.post('ajax', '{"type":"question","method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "1" , "mode": "' + 'normal' + '"}', function(data) {
-							treat_answer(data);
-						});
-					});
-				})()
-			}
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////// CLICK ON THE UTILITY BUTTON ////////////////////////////////////////////////////////////////
