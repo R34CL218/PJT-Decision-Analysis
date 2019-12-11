@@ -2,7 +2,7 @@
 
 <h2>Former students:</h2>
 <ul>
-    <li>Yuli Liuuu</li>
+    <li>Yuli Liuuuppp</li>
     <li>Pierre Heger</li>
     <li>Mariem Housni</li>
     <li>Moussa Nasroune</li>
