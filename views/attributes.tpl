@@ -379,17 +379,9 @@ $(function() {
 			val_min = parseInt($('#att_value_min_quanti').val()),
 			val_max = parseInt($('#att_value_max_quanti').val());
 
-		var method = "PE";
+		var method = "GM";
 		if ($("select option:selected").text() == "Probability Equivalence") {
-			method = "PE";
-		} else if ($("select option:selected").text() == "Gambling Method") {
 			method = "GM";
-		} else if ($("select option:selected").text() == "Lottery Equivalence") {
-			method = "LE";
-		} else if ($("select option:selected").text() == "Certainty Equivalence - Constant Probability") {
-			method = "CE_Constant_Prob";
-		} else if ($("select option:selected").text() == "Certainty Equivalence - Variable Probability") {
-			method = "CE_Variable_Prob";
 		}
 		
 		
