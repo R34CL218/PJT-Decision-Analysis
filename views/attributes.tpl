@@ -384,6 +384,8 @@ $(function() {
 			method = "PE";
 		} else if ($("select option:selected").text() == "Lottery Equivalence") {
 			method = "LE";
+		} else if ($("select option:selected").text() == "Gambling Method") {
+			method = "GM";
 		} else if ($("select option:selected").text() == "Certainty Equivalence - Constant Probability") {
 			method = "CE_Constant_Prob";
 		} else if ($("select option:selected").text() == "Certainty Equivalence - Variable Probability") {
