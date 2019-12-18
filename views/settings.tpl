@@ -25,6 +25,11 @@
         <small id="proba_le_help" class="form-text text-muted">Type the probability used in the lottery equivalents method (default: 0.3)</small>
     </div>
     <div class="form-group">
+        <label for="proba_gm">Probability of GM method</label>
+        <input type="number" min=0 step=0.01 class="form-control form-control-inline" id="proba_gm" aria-describedby="proba_le_help" />
+        <small id="proba_gm_help" class="form-text text-muted">Type the probability used in the lottery equivalents method (default: 0.3)</small>
+    </div>
+    <div class="form-group">
         <p><strong>Select the language used in Excel export and displayed equations (default: english)</strong></p>
         <label class="form-check-inline"><input type="radio" class="form-check-input" name="language" id="english" value="english"> English</label>
         <label class="form-check-inline"><input type="radio" class="form-check-input" name="language" id="french" value="french"> French</label>
@@ -84,6 +89,7 @@
         $("#decimals_dpl").val(settings.decimals_dpl);
         $("#proba_ce").val(settings.proba_ce);
         $("#proba_le").val(settings.proba_le);
+	$("#proba_gm").val(settings.proba_gm);
         $("#" + settings.language).prop("checked", true);
         $("#" + settings.display).prop("checked", true);
 
@@ -94,6 +100,7 @@
             settings.decimals_dpl = $("#decimals_dpl").val();
             settings.proba_ce = $("#proba_ce").val();
             settings.proba_le = $("#proba_le").val();
+	    settings.proba_gm = $("#proba_gm").val();
             var language = $("input[type='radio'][name='language']:checked");
             settings.language = language.val();
             var display = $("input[type='radio'][name='display']:checked");
