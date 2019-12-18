@@ -9,26 +9,32 @@ def PE_old(p, c):
 
 ##############Programme GM################################################
 
-
+# sachant que p1 va etre egale soit a 0.38 soit a 0.13
 def GM(min_interval, max_interval, p, choix, mode):
-    #min_interval=0; p=0.75; max_interval=1
-
+    #min_interval= 0; p = 0.47; max_interval = 0.5;
     if mode == 'reversed':
         choix = (choix + 1) % 2
-    liste = [min_interval, max_interval]
-    if choix == 1:
-        max_interval = p  # la borne max est remplacee par la nouvelle valeur
-        p = round(p / 4, 2)  # au premier abord, on divise p par 4
-        if p < min_interval:
+    liste = [min_interval, max_interval]  # p = probabilite qui s affiche
+    # choix = 0 correspond a la lotterie de gauche (celle dont la probabilite
+    # change)
+    if choix == 0:
+        max_interval = p
+        p = round(p / 4, 2)
+        if min_interval > p:
             p = round(min_interval + (max_interval - min_interval) / 4, 2)
-        # pas la peine de renvoyer la valeur de p car max_interval=p
         liste = [min_interval, max_interval]
         return({"interval": liste, "proba": p})
+    # choix = 1 correspond a la lotterie de droite (celle qui ne change pas)
     else:
         min_interval = p
-        p = round(max_interval - (max_interval - min_interval) / 4, 2)
+        p = round(max_interval - (max_interval - p) / 4, 2)
         liste = [min_interval, max_interval]
         return({"interval": liste, "proba": p})
+
+# pour ensuite les deux autres questionnaires il suffit de modifier la
+# valeur max de la lotterie de droite (celle qui ne change pas) si au
+# debut les bornes sont de [0,50], elles sont ensuite de [0,25] puis de
+# [0,75]
 
 ###################Programme LE###########################################
 
