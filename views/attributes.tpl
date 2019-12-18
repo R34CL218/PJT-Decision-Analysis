@@ -205,6 +205,7 @@ $(function() {
 				"decimals_dpl": 8,
 				"proba_ce": 0.3,
 				"proba_le": 0.3,
+				"proba_gm": 0.3,
 				"language": "english",
 				"display": "trees"
 			}
