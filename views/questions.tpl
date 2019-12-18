@@ -167,33 +167,37 @@
 			///////////////////////////////////////////////////////////////// GM METHOD ////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			if (method == 'GM') {
+			else if (method == 'GM') {
 				(function() {
 					// VARIABLES
-					var probability = 0.75,
-						min_interval = 0,
-						max_interval = 1,
-						gain_certain = parseFloat(question_val);
+					var probability = random_proba(0.38, 0.13);
+					var min_interval = 0;
+					var max_interval = 0.5;
 
 					// INTERFACE
-					var arbre_gm = new Arbre('gm', '#trees', settings.display, "GM");
-					
+
+					var arbre_le = new Arbre('gauche', '#trees', settings.display, "GM_left");
+					var arbre_droite = new Arbre('droite', '#trees', settings.display, "GM_right");
+
 					// SETUP ARBRE GAUCHE
-					arbre_gm.questions_proba_haut = probability;
-					arbre_gm.questions_val_max = (mode=="Normal"? val_max : val_min) + ' ' + unit;
-					arbre_gm.questions_val_min = (mode=="Normal"? val_min : val_max) + ' ' + unit;
-					arbre_gm.questions_val_mean = gain_certain + ' ' + unit;
-					
-					arbre_gm.display();
-					arbre_gm.update();
+					arbre_le.questions_proba_haut = probability;
+					arbre_le.questions_val_max = val_max + ' ' + unit;
+					arbre_le.questions_val_min = val_min + ' ' + unit;
+					arbre_le.display();
+					arbre_le.update();
 
-					$('#trees').append('</div><div class=choice style="text-align: center;"><p>Which option do you prefer?</p><button type="button" class="btn btn-default" id="gain">Certain gain</button><button type="button" class="btn btn-default" id="lottery">Lottery</button></div>');
+					// SETUP ARBRE DROIT
+					arbre_droite.questions_proba_haut = settings.proba_le;
 
-					// FUNCTIONS
-					function sync_values() {
-						arbre_gm.questions_proba_haut = probability;
-						arbre_gm.update();
-					}
+					// The certain gain will change whether it is the 1st, 2nd or 3rd questionnaire
+					arbre_droite.questions_val_max = parseFloat(question_val) + ' ' + unit;
+					arbre_droite.questions_val_min = val_min + ' ' + unit;
+					arbre_droite.display();
+					arbre_droite.update();
+
+					// we add the choice button
+					$('#trees').append('<div class=choice style="text-align: center;"><p>Which option do you prefer?</p><button type="button" class="btn btn-default lottery_a">Lottery A</button><button type="button" class="btn btn-default lottery_b">Lottery B</button></div>')
+
 
 					function treat_answer(data) {
 						min_interval = data.interval[0];
@@ -201,15 +205,16 @@
 						probability = parseFloat(data.proba).toFixed(2);
 
 						if (max_interval - min_interval <= 0.05) {
-							sync_values();
+							arbre_le.questions_proba_haut = probability;
+							arbre_le.update();
 							ask_final_value(Math.round((max_interval + min_interval) * 100 / 2) / 100);
 						} else {
-							sync_values();
+							arbre_le.questions_proba_haut = probability;
+							arbre_le.update();
 						}
 					}
 
 					function ask_final_value(val) {
-						// we delete the choice div
 						$('.choice').hide();
 						$('.container-fluid').append(
 							'<div id= "final_value" style="text-align: center;"><br /><br /><p>We are almost done. Please enter the probability that makes you indifferent between the two situations above. Your previous choices indicate that it should be between ' + min_interval + ' and ' + max_interval + ' but you are not constrained to that range <br /> ' + min_interval +
@@ -218,14 +223,13 @@
 							'</p><button type="button" class="btn btn-default final_validation">Validate</button></div>'
 						);
 
-
 						// when the user validate
 						$('.final_validation').click(function() {
 							var final_proba = parseFloat($('#final_proba').val());
 
 							if (final_proba <= 1 && final_proba >= 0) {
 								// we save it
-								assess_session.attributes[indice].questionnaire.points[String(gain_certain)]=final_proba;
+								assess_session.attributes[indice].questionnaire.points[question_val] = final_proba*2;
 								assess_session.attributes[indice].questionnaire.number += 1;
 								// backup local
 								localStorage.setItem("assess_session", JSON.stringify(assess_session));
@@ -235,23 +239,26 @@
 						});
 					}
 
-					sync_values();
+
 
 					// HANDLE USERS ACTIONS
-					$('#gain').click(function() {
-						$.post('ajax', '{"type":"question", "method": "GM, "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "0", "mode": "' + 'normal' + '"}', function(data) {
+					$('.lottery_a').click(function() {
+						$.post('ajax', '{"type":"question", "method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "0" , "mode": "' + String(mode) + '"}', function(data) {
 							treat_answer(data);
+							console.log(data);
 						});
 					});
 
-					$('#lottery').click(function() {
-						$.post('ajax', '{"type":"question","method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "1" , "mode": "' + 'normal' + '"}', function(data) {
+					$('.lottery_b').click(function() {
+						$.post('ajax', '{"type":"question","method": "GM", "proba": ' + String(probability) + ', "min_interval": ' + min_interval + ', "max_interval": ' + max_interval + ' ,"choice": "1" , "mode": "' + String(mode) + '"}', function(data) {
 							treat_answer(data);
+							console.log(data);
 						});
 					});
 				})()
 			}
-
+			
+			
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////////// LE METHOD ////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
