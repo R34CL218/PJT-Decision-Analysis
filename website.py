@@ -133,8 +133,9 @@ def ajax():
             return methods.LE(float(query['min_interval']), float(query['max_interval']), float(query['proba']), int(query['choice']), str(query['mode']))
         elif query['method'] == 'CE_Constant_Prob':
             return methods.CE(float(query['min_interval']), float(query['max_interval']), float(query['gain']), int(query['choice']), str(query['mode']))
-        elif query['method'] == 'GM':
+         elif query['method'] == 'GM':
             return methods.GM(float(query['min_interval']), float(query['max_interval']), float(query['proba']), int(query['choice']), str(query['mode']))
+        
 	
             return query['method']
 
